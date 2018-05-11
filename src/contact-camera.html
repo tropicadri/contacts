@@ -1,0 +1,85 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/app-media/app-media-image-capture.html">
+<link rel="import" href="../bower_components/app-media/app-media-devices.html">
+<link rel="import" href="../bower_components/app-media/app-media-stream.html">
+<link rel="import" href="../bower_components/app-media/app-media-video.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="contact-list.html">
+
+<dom-module id="contact-camera">
+  <template>
+    <style include="shared-styles">
+      :host {
+        display: block;
+
+        padding: 10px;
+      }
+    </style>
+
+    <div>
+<app-media-devices
+        id="devices"
+        kind="videoinput"
+        selected-device="{{videoDevice}}">
+    </app-media-devices>
+
+    <app-media-stream
+        video-device="[[videoDevice]]"
+        stream="{{stream}}"
+        active='true'>
+    </app-media-stream>
+
+    <app-media-video
+        id="video"
+        source="[[stream]]"
+        autoplay
+        muted>
+    </app-media-video>
+
+    <app-media-image-capture
+        id="imagecapture"
+        stream="[[stream]]"
+        last-photo="{{photo}}">
+    </app-media-image-capture>
+<paper-button raised class="indigo" on-click="takePhoto">take</paper-button>
+      
+    </div>
+  </template>
+
+  <script>
+    class ContactCamera extends Polymer.Element {
+      static get is() { return 'contact-camera'; }
+
+      static get properties() {
+        return {
+          photo: {
+            type: Blob,
+            notify: true,
+            }
+          }
+        };
+
+    takePhoto() {
+      // NOTE: This method also returns a promise that resolves the photo.
+      this.$.imagecapture.takePhoto().then((photo)=>{
+        window.URL = window.URL || window.webkitURL;
+        window.location = window.URL.createObjectURL(photo);
+      });
+      
+    }  
+  }
+
+    window.customElements.define(ContactCamera.is, ContactCamera);
+  </script>
+</dom-module>
