@@ -23,8 +23,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: block;
-
-        padding: 10px;
       }
     </style>
 	        <contact-camera photo={{photo}} active$=[[active]]></contact-camera>	     	    
@@ -50,26 +48,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   			},
             items: {
               type: Array,
-              value: []
+              value: [],
+			  notify: true,
             },			 				
           }
         };
 
     photoChanged_() {
-      // NOTE: This method also returns a promise that resolves the photo.
-      
         window.URL = window.URL || window.webkitURL;
 		const index = this.items.indexOf(this.contact);
-		const path='items.'+ index + '.url';
-	  this.set(path, window.URL.createObjectURL(this.photo));
+		if(index > 0){
+		  const path='items.'+ index + '.url';
+	      this.set(path, window.URL.createObjectURL(this.photo));
+		}
 		window.history.pushState({}, '', 'view1');
 		window.dispatchEvent(new CustomEvent('location-changed'));
-      
-      
+           
     }
 	
 	activeChanged_(){
-		console.log("active changed in view 2");
 	}
 	  
     }

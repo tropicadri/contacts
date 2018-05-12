@@ -84,8 +84,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
         <app-toolbar>Menu</app-toolbar>
         <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="[[rootPath]]view1">View One</a>
-          <a name="view2" href="[[rootPath]]view2">View Two</a>
+          <a name="view1" href="[[rootPath]]view1">Contact List</a>
+          <a name="view2" href="[[rootPath]]view2">Take Picture</a>
         </iron-selector>
       </app-drawer>
 
@@ -137,12 +137,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           items: {
             type: Array,
             value: function() {
-              return [{name: "Juana"}];
+              return [{name: "Mom"}];
             }
           },
           contact: {
             type: Object,
-            notify: true,
             },
 			
         };
@@ -166,12 +165,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       _pageChanged(page) {
-        // Load page import on demand. Show 404 page if fails
-			if(page == 'view2'){
-				this.active=true;
-			}else{
-				this.active=false;
-			}
       }
 
       _showPage404() {

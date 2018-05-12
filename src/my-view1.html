@@ -49,6 +49,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return {
           items: {
             type: Array,
+			notify: true,  
+			value: [],
           },
           newName:{
             type:String,
@@ -56,19 +58,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           },
           contact: {
             type: Object,
-		  value: {}, 
+		  	value: {}, 
             notify: true,
-            },
-			active: {
-				type: Boolean,
-			observer: 'activeChanged_'
-			},					  
+          },
+		  active: {
+			  type: Boolean,
+			  observer: 'activeChanged_'
+		  },
+		  names: {
+			  type:Array,
+			  value:[],
+		  },					  
         };
       }
 
-      add(){
-        this.push('items', {name: this.newName});
-        this.newName = "";
+      add(){		  
+	    if(this.newName.length > 0){
+			const index = this.names.indexOf(this.newName);
+			if(index == -1 && this.newName != 'Mom'){
+				this.push('names',this.newName);
+			    this.set('contact', {name: this.newName});  
+			    this.push('items', this.contact );
+	            
+			}
+			this.set('newName', ""); 		    
+		 }				
       }
 	  
 	  goToPhoto(e){
@@ -77,9 +91,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   		window.dispatchEvent(new CustomEvent('location-changed'));
 	  }
 	  
-  	activeChanged_(){
-  		console.log("active changed in view 1");
-  	}
+	  activeChanged_(){
+  		//console.log("active changed in view 1");
+  	  }
     }
 
     window.customElements.define(MyView1.is, MyView1);
