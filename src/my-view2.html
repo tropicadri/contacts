@@ -14,7 +14,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/app-media/app-media-stream.html">
 <link rel="import" href="../bower_components/app-media/app-media-video.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="contact-camera.html">
 
 <dom-module id="my-view2">
   <template>
@@ -25,36 +27,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 10px;
       }
     </style>
-
-	    <div>
-	<app-media-devices
-	        id="devices"
-	        kind="videoinput"
-	        selected-device="{{videoDevice}}">
-	    </app-media-devices>
-
-	    <app-media-stream
-	        video-device="[[videoDevice]]"
-	        stream="{{stream}}"
-	        active$="[[active]]">
-	    </app-media-stream>
-
-	    <app-media-video
-	        id="video"
-	        source="[[stream]]"
-	        autoplay
-	        muted>
-	    </app-media-video>
-
-	    <app-media-image-capture
-	        id="imagecapture"
-	        stream="{{stream}}"
-	        last-photo="{{photo}}">
-	    </app-media-image-capture>
-	<paper-button raised class="indigo" on-click="takePhoto">take</paper-button>
-	[[contact.name]] !!!
-      
-	    </div>
+	
+	<template is="dom-if" if="[[active]]">
+	        <contact-camera photo={{photo}} active$=[[active]]></contact-camera>
+	      </template>	    
   </template>
 
   <script>
@@ -65,16 +41,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return {
           photo: {
             type: Blob,
-            notify: true,
+			observer: 'photoChanged_',
             },
             contact: {
               type: Object,
               notify: true,
               },
-  			active:{
-  				type: Boolean,
-  				value: false,
-  			},
+  			active: Boolean,
             items: {
               type: Array,
               value: []
@@ -82,19 +55,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         };
 
-    takePhoto() {
+    photoChanged_() {
       // NOTE: This method also returns a promise that resolves the photo.
-      this.$.imagecapture.takePhoto().then((photo)=>{
+      
         window.URL = window.URL || window.webkitURL;
 		const index = this.items.indexOf(this.contact);
 		const path='items.'+ index + '.url';
-		console.log(path);
-	  //this.items[index] = this.contact;
-	  this.set(path, window.URL.createObjectURL(photo));
-		console.log(this.items[index].url + "!!!!!the url");
+	  this.set(path, window.URL.createObjectURL(this.photo));
 		window.history.pushState({}, '', 'view1');
 		window.dispatchEvent(new CustomEvent('location-changed'));
-      });
+      
       
     }
 	  

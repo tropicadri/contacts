@@ -139,7 +139,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           items: {
             type: Array,
             value: function() {
-              return [{name:"something"}];
+              return [{name: "Juana"}];
             }
           },
           contact: {
@@ -173,18 +173,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
-        const resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
-        Polymer.importHref(
-            resolvedPageUrl,
-            null,
-            this._showPage404.bind(this),
-            true);
-			console.log(page + "@@@@@@@@@");
 			if(page == 'view2'){
 				this.active=true;
 			}else{
 				this.active=false;
-			
 			}
       }
 
