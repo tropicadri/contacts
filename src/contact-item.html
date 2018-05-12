@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
 <link rel="import" href="shared-styles.html">
 <link rel="import" href="contact-list.html">
 
@@ -24,6 +25,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <div class="card">
       [[person.name]]
+	  <iron-image src="[[person.url]]" style="width:50px; height:50px;"></iron-image> 
     </div>
   </template>
 

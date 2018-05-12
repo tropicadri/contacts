@@ -36,7 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	    <app-media-stream
 	        video-device="[[videoDevice]]"
 	        stream="{{stream}}"
-	        active='true'>
+	        active="[[active]]">
 	    </app-media-stream>
 
 	    <app-media-video
@@ -52,6 +52,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	        last-photo="{{photo}}">
 	    </app-media-image-capture>
 	<paper-button raised class="indigo" on-click="takePhoto">take</paper-button>
+	[[contact.name]] !!!
       
 	    </div>
   </template>
@@ -66,11 +67,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: Blob,
             notify: true,
             },
-            item: {
+            contact: {
               type: Object,
-			  value: {}, 
               notify: true,
-              },				
+              },
+  			active:{
+  				type: Boolean,
+  				value: false,
+  			},
+            items: {
+              type: Array,
+              value: []
+            },			 				
           }
         };
 
@@ -78,8 +86,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       // NOTE: This method also returns a promise that resolves the photo.
       this.$.imagecapture.takePhoto().then((photo)=>{
         window.URL = window.URL || window.webkitURL;
-        this.item.url = window.URL.createObjectURL(photo);
-		window.location = "http://127.0.0.1:8081/view1";
+		const index = this.items.indexOf(this.contact);
+		this.set('contact.url', window.URL.createObjectURL(photo));
+		const path='items.'+ index;
+		console.log(path + "!!!!");
+		this.push('items', this.contact );
+		//console.log(this.items[index].url + "the url");
+		window.history.pushState({}, '', 'view1');
+		window.dispatchEvent(new CustomEvent('location-changed'));
       });
       
     }
