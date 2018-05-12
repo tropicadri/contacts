@@ -68,9 +68,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 	  
 	  goToPhoto(e){
-		  console.log(e.model.index + "Im hungry!");
-		  console.log(this.items[e.model.index].name);
-		  this.set('contact',this.get(['items',e.model.index]));
+		this.set('contact',this.get(['items',e.model.index]));
   		window.history.pushState({}, '', 'view2');
   		window.dispatchEvent(new CustomEvent('location-changed'));
 	  }
