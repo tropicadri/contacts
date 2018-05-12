@@ -87,11 +87,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.$.imagecapture.takePhoto().then((photo)=>{
         window.URL = window.URL || window.webkitURL;
 		const index = this.items.indexOf(this.contact);
-		this.set('contact.url', window.URL.createObjectURL(photo));
-		const path='items.'+ index;
-		console.log(path + "!!!!");
-		this.push('items', this.contact );
-		//console.log(this.items[index].url + "the url");
+		const path='items.'+ index + '.url';
+		console.log(path);
+	  //this.items[index] = this.contact;
+	  this.set(path, window.URL.createObjectURL(photo));
+		console.log(this.items[index].url + "!!!!!the url");
 		window.history.pushState({}, '', 'view1');
 		window.dispatchEvent(new CustomEvent('location-changed'));
       });

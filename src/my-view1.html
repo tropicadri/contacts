@@ -71,6 +71,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		  console.log(e.model.index + "Im hungry!");
 		  console.log(this.items[e.model.index].name);
 		  this.set('contact',this.get(['items',e.model.index]));
+		  this.items[e.model.index] = this.contact;
+		  this.notifyPath('items', this.items);
   		window.history.pushState({}, '', 'view2');
   		window.dispatchEvent(new CustomEvent('location-changed'));
 	  }
