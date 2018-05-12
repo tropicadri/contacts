@@ -58,7 +58,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: Object,
 		  value: {}, 
             notify: true,
-            },		  
+            },
+			active: {
+				type: Boolean,
+			observer: 'activeChanged_'
+			},					  
         };
       }
 
@@ -72,6 +76,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   		window.history.pushState({}, '', 'view2');
   		window.dispatchEvent(new CustomEvent('location-changed'));
 	  }
+	  
+  	activeChanged_(){
+  		console.log("active changed in view 1");
+  	}
     }
 
     window.customElements.define(MyView1.is, MyView1);

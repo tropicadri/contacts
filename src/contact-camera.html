@@ -31,20 +31,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
      <app-media-stream
          video-device="[[videoDevice]]"
-         stream="{{stream}}"
+         stream="{{stream_}}"
          active$="[[active]]">
      </app-media-stream>
 
      <app-media-video
          id="video"
-         source="[[stream]]"
+         source="[[stream_]]"
          autoplay
          muted>
      </app-media-video>
 
      <app-media-image-capture
          id="imagecapture"
-         stream="[[stream]]"
+         stream="[[computeStreamForCapture_(stream_)]]"
          last-photo="{{photo}}">
      </app-media-image-capture>
 	<paper-button raised class="indigo" on-click="takePhoto">take</paper-button>
@@ -61,17 +61,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: Blob,
             notify: true,
             },
-            contact: {
-              type: Object,
-              notify: true,
-              },
-  			active: Boolean,			 				
+    			active: {
+    				type: Boolean,
+  				observer: 'activeChanged_'
+    			},
+    			stream_: {
+    				type: Object,
+  				observer: 'streamChanged_'
+    			},			 				
           }
         };
 		
 		takePhoto(){
 			this.$.imagecapture.takePhoto();
 		}
+		
+		activeChanged_(){
+			console.log("active changed in camera");
+		}
+		
+		computeStreamForCapture_(stream) {
+			console.log("llama?");
+		    return stream || undefined;
+		  }
+		  
+		  streamChanged_(newStream, oldStream){
+			  if(newStream){
+				  console.log("there is new");
+			  }
+			  if(oldStream){
+				  console.log("there is old");
+			  }
+			  
+			  if (newStream == null && !!oldStream) {
+				  console.log('we are doing hacky!!!!');
+			       oldStream.getTracks().forEach((track) => {
+			         track.stop();
+			       });
+			   }
+		  	
+		  }
       }
 
     window.customElements.define(ContactCamera.is, ContactCamera);

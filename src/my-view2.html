@@ -27,10 +27,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         padding: 10px;
       }
     </style>
-	
-	<template is="dom-if" if="[[active]]">
-	        <contact-camera photo={{photo}} active$=[[active]]></contact-camera>
-	      </template>	    
+	        <contact-camera photo={{photo}} active$=[[active]]></contact-camera>	     	    
   </template>
 
   <script>
@@ -47,7 +44,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               type: Object,
               notify: true,
               },
-  			active: Boolean,
+  			active: {
+  				type: Boolean,
+				observer: 'activeChanged_'
+  			},
             items: {
               type: Array,
               value: []
@@ -67,6 +67,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
       
     }
+	
+	activeChanged_(){
+		console.log("active changed in view 2");
+	}
 	  
     }
 
