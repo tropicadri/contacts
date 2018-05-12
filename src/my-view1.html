@@ -33,7 +33,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div>
           <!--<div class$="[[getClassForItem(item, selected)]]" tabindex$="[[tabIndex]]">
             <iron-image class="avatar" sizing="contain" src="[[item.image]]"></iron-image>-->
-           <contact-item  person="{{item}}"></contact-item>            
+           <contact-item  person="{{item}}" on-tap="goToPhoto"></contact-item>            
           <!--</div>-->
         </div>
       </template>
@@ -54,7 +54,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           newName:{
             type:String,
             value: ""
-          }
+          },
+		  
         };
       }
 
@@ -62,6 +63,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.push('items', {name: this.newName});
         this.newName = "";
       }
+	  
+	  goToPhoto(e){
+		  console.log(e.model.index + "Im hungry!");
+		  window.location="http://127.0.0.1:8081/view2"
+	  }
     }
 
     window.customElements.define(MyView1.is, MyView1);
