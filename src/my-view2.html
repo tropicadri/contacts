@@ -57,7 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     photoChanged_() {
         window.URL = window.URL || window.webkitURL;
 		const index = this.items.indexOf(this.contact);
-		if(index > 0){
+		if(index >= 0){
 		  const path='items.'+ index + '.url';
 	      this.set(path, window.URL.createObjectURL(this.photo));
 		}
