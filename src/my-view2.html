@@ -25,54 +25,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         display: block;
       }
     </style>
-	        <contact-camera photo={{photo}} active$=[[active]]></contact-camera>	     	    
+	        <contact-camera photo={{photo}} active$=[[active]]></contact-camera>
   </template>
 
   <script>
     class MyView2 extends Polymer.Element {
       static get is() { return 'my-view2'; }
-	  
+
       static get properties() {
         return {
           photo: {
             type: Blob,
-			observer: 'photoChanged_',
-            },
-            contact: {
-              type: Object,
-              notify: true,
-              },
-  			active: {
-  				type: Boolean,
-				observer: 'activeChanged_'
-  			},
-            items: {
-              type: Array,
-              value: [],
-			  notify: true,
-            },			 				
-          }
-        };
+			      observer: 'photoChanged_',
+          },
+          contact: {
+            type: Object,
+            notify: true,
+          },
+  			  active: {
+  				  type: Boolean,
+				    observer: 'activeChanged_'
+  			  },
+          items: {
+            type: Array,
+            value: [],
+			      notify: true,
+          },
+        }
+      };
 
     photoChanged_() {
-        window.URL = window.URL || window.webkitURL;
-		const index = this.items.indexOf(this.contact);
-		if(index >= 0){
-		  const path='items.'+ index + '.url';
+      window.URL = window.URL || window.webkitURL;
+		  const index = this.items.indexOf(this.contact);
+		  if(index >= 0){
+		    const path='items.'+ index + '.url';
 	      this.set(path, window.URL.createObjectURL(this.photo));
-		}
-		window.history.pushState({}, '', 'view1');
-		window.dispatchEvent(new CustomEvent('location-changed'));
-           
-    }
-	
-	activeChanged_(){
-	}
-	  
+		  }
+		  window.history.pushState({}, '', 'view1');
+		  window.dispatchEvent(new CustomEvent('location-changed'));
     }
 
-    	
+    activeChanged_(){}
 
+  }
     window.customElements.define(MyView2.is, MyView2);
   </script>
 </dom-module>

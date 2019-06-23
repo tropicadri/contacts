@@ -19,7 +19,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
       }
     </style>
@@ -27,9 +26,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <paper-button raised class="indigo" on-click="add">add</paper-button>
         <paper-input value="{{newName}}"></paper-input>
         <iron-list id="list" items="[[items]]" as="item" selection-enabled multi-selection>
-      <template>        
+      <template>
         <div>
-           <contact-item  person="{{item}}" on-tap="goToPhoto"></contact-item>            
+           <contact-item  person="{{item}}" on-tap="goToPhoto"></contact-item>
         </div>
       </template>
     </iron-list>
@@ -38,14 +37,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script>
     class MyView1 extends Polymer.Element {
       static get is() { return 'my-view1'; }
-	  
-	  
+
+
       static get properties() {
         return {
           items: {
             type: Array,
-			notify: true,  
-			value: [],
+			      notify: true,
+			      value: [],
           },
           newName:{
             type:String,
@@ -53,41 +52,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           },
           contact: {
             type: Object,
-		  	value: {}, 
+		  	    value: {},
             notify: true,
           },
-		  active: {
-			  type: Boolean,
-			  observer: 'activeChanged_'
-		  },
-		  names: {
-			  type:Array,
-			  value:[],
-		  },					  
+		      active: {
+			     type: Boolean,
+			     observer: 'activeChanged_'
+		      },
+		     names: {
+			    type:Array,
+			    value:[],
+		      },
         };
       }
 
-      add(){		  
-	    if(this.newName.length > 0){
-			const index = this.names.indexOf(this.newName);
-			if(index == -1 && this.newName != 'Mom'){
-				this.push('names',this.newName);
-			    this.set('contact', {name: this.newName});  
-			    this.push('items', this.contact );
-	            
+      add(){
+	      if(this.newName.length > 0){
+			    const index = this.names.indexOf(this.newName);
+			    if(index == -1 && this.newName != 'Mom'){
+				    this.push('names',this.newName);
+			      this.set('contact', {name: this.newName});
+			      this.push('items', this.contact );
+            this.$.list.notifyResize();
 			}
-			this.set('newName', ""); 		    
-		 }				
-      }
-	  
+			this.set('newName', "");
+		 }
+    }
+
 	  goToPhoto(e){
-		this.set('contact',this.get(['items',e.model.index]));
+		  this.set('contact',this.get(['items',e.model.index]));
   		window.history.pushState({}, '', 'view2');
   		window.dispatchEvent(new CustomEvent('location-changed'));
 	  }
-	  
+
 	  activeChanged_(){
-  		//console.log("active changed in view 1");
   	  }
     }
 

@@ -17,39 +17,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <style include="shared-styles">
       :host {
         display: block;
-
         padding: 10px;
       }
     </style>
 
-	    <div>
-    <app-media-devices
+	  <div>
+      <app-media-devices
          id="devices"
          kind="videoinput"
          selected-device="{{videoDevice}}">
-     </app-media-devices>
+      </app-media-devices>
 
-     <app-media-stream
+      <app-media-stream
          video-device="[[videoDevice]]"
          stream="{{stream_}}"
          active$="[[active]]">
-     </app-media-stream>
+      </app-media-stream>
 
-     <app-media-video
+      <app-media-video
          id="video"
          source="[[stream_]]"
          autoplay
          muted>
-     </app-media-video>
+      </app-media-video>
 
-     <app-media-image-capture
+      <app-media-image-capture
          id="imagecapture"
          stream="[[computeStreamForCapture_(stream_)]]"
          last-photo="{{photo}}">
-     </app-media-image-capture>
-	<paper-button raised class="indigo" on-click="takePhoto">take</paper-button>
-      
-	    </div>
+      </app-media-image-capture>
+	    <paper-button raised class="indigo" on-click="takePhoto">take</paper-button>
+
+	   </div>
   </template>
 
   <script>
@@ -61,36 +60,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             type: Blob,
             notify: true,
           },
-    	  active: {
-    		type: Boolean,
-  			observer: 'activeChanged_'
-    	  },
-    	  stream_: {
-    		type: Object,
-  			observer: 'streamChanged_'
-    		},			 				
-          }
-        };
-		
+    	    active: {
+    		    type: Boolean,
+  			    observer: 'activeChanged_'
+    	    },
+    	    stream_: {
+    		    type: Object,
+  			    observer: 'streamChanged_'
+    		  },
+        }
+      };
+
 		takePhoto(){
 			this.$.imagecapture.takePhoto();
 		}
-		
+
 		activeChanged_(){
 		}
-		
+
 		computeStreamForCapture_(stream) {
 		    return stream || undefined;
+		}
+
+		streamChanged_(newStream, oldStream){
+		  if (newStream == null && !!oldStream) {
+			  oldStream.getTracks().forEach((track) => {
+			  track.stop();
+			  });
+			 }
 		  }
-		  
-		  streamChanged_(newStream, oldStream){			 
-			  if (newStream == null && !!oldStream) {
-			       oldStream.getTracks().forEach((track) => {
-			         track.stop();
-			       });
-			   }
-		  }
-      }
+    }
 
     window.customElements.define(ContactCamera.is, ContactCamera);
   </script>
