@@ -43,8 +43,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         return {
           items: {
             type: Array,
-			      notify: true,
-			      value: [],
+            notify: true,
+            value: [],
           },
           newName:{
             type:String,
@@ -52,40 +52,40 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           },
           contact: {
             type: Object,
-		  	    value: {},
+    	      value: {},
             notify: true,
           },
-		      active: {
-			     type: Boolean,
-			     observer: 'activeChanged_'
-		      },
-		     names: {
-			    type:Array,
-			    value:[],
-		      },
+          active: {
+            type: Boolean,
+            observer: 'activeChanged_'
+          },
+          names: {
+            type:Array,
+            value:[],
+          },
         };
       }
 
       add(){
-	      if(this.newName.length > 0){
-			    const index = this.names.indexOf(this.newName);
-			    if(index == -1 && this.newName != 'Mom'){
-				    this.push('names',this.newName);
-			      this.set('contact', {name: this.newName});
-			      this.push('items', this.contact );
+        if(this.newName.length > 0){
+          const index = this.names.indexOf(this.newName);
+          if(index == -1 && this.newName != 'Mom'){
+            this.push('names',this.newName);
+            this.set('contact', {name: this.newName});
+            this.push('items', this.contact );
             this.$.list.notifyResize();
-			}
-			this.set('newName', "");
-		 }
+          }
+          this.set('newName', "");
+        }
+      }
+
+      goToPhoto(e){
+        this.set('contact',this.get(['items',e.model.index]));
+  		  window.history.pushState({}, '', 'view2');
+  		  window.dispatchEvent(new CustomEvent('location-changed'));
     }
 
-	  goToPhoto(e){
-		  this.set('contact',this.get(['items',e.model.index]));
-  		window.history.pushState({}, '', 'view2');
-  		window.dispatchEvent(new CustomEvent('location-changed'));
-	  }
-
-	  activeChanged_(){
+    activeChanged_(){
   	  }
     }
 
